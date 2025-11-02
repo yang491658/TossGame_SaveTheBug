@@ -7,6 +7,29 @@ using UnityEngine.UI;
 using UnityEditor;
 #endif
 
+[System.Serializable]
+public struct ItemSlot
+{
+    public GameObject go;
+    public Image image;
+    public TextMeshProUGUI level;
+    public Button upBtn;
+
+    public ItemSlot(GameObject obj)
+    {
+        go = obj;
+        image = null;
+        for (int i = 0; i < obj.transform.childCount; i++)
+        {
+            var img = obj.transform.GetChild(i).GetComponent<Image>();
+            if (img != null) { image = img; break; }
+        }
+
+        level = obj.GetComponentInChildren<TextMeshProUGUI>();
+        upBtn = obj.GetComponentInChildren<Button>();
+    }
+}
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { private set; get; }
@@ -15,9 +38,11 @@ public class UIManager : MonoBehaviour
 
     [Header("InGame UI")]
     [SerializeField] private GameObject inGameUI;
-    [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI playTimeText;
     private float playTime = 0f;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI levelText;
+    [SerializeField] private Slider expSlider;
 
     [Header("Setting UI")]
     [SerializeField] private GameObject settingUI;
@@ -36,7 +61,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI confirmText;
     private System.Action confirmAction;
 
-    [Header("Game Over UI")]
+    [Header("Stat UI")]
+    [SerializeField] private GameObject statUI;
+    [SerializeField] private List<ItemSlot> itemStats = new List<ItemSlot>();
+
+    [Header("Result UI")]
     [SerializeField] private GameObject resultUI;
     [SerializeField] private TextMeshProUGUI resultScoreText;
 
@@ -45,10 +74,14 @@ public class UIManager : MonoBehaviour
     {
         if (inGameUI == null)
             inGameUI = GameObject.Find("InGameUI");
-        if (scoreText == null)
-            scoreText = GameObject.Find("InGameUI/Score/ScoreText")?.GetComponent<TextMeshProUGUI>();
         if (playTimeText == null)
             playTimeText = GameObject.Find("InGameUI/Score/PlayTimeText")?.GetComponent<TextMeshProUGUI>();
+        if (scoreText == null)
+            scoreText = GameObject.Find("InGameUI/Score/ScoreText")?.GetComponent<TextMeshProUGUI>();
+        if (levelText == null)
+            levelText = GameObject.Find("InGameUI/Level/LevelText")?.GetComponent<TextMeshProUGUI>();
+        if (expSlider == null)
+            expSlider = GameObject.Find("InGameUI/ExpSlider").GetComponentInChildren<Slider>();
 
         if (settingUI == null)
             settingUI = GameObject.Find("SettingUI");
@@ -76,6 +109,12 @@ public class UIManager : MonoBehaviour
             confirmUI = GameObject.Find("ConfirmUI");
         if (confirmText == null)
             confirmText = GameObject.Find("ConfirmUI/Box/ConfirmText")?.GetComponent<TextMeshProUGUI>();
+
+        if (statUI == null)
+            statUI = GameObject.Find("StatUI");
+        if (itemStats == null || itemStats.Count == 0)
+            foreach (Transform child in GameObject.Find("StatUI/Items").transform)
+                itemStats.Add(new ItemSlot(child.gameObject));
 
         if (resultUI == null)
             resultUI = GameObject.Find("ResultUI");
@@ -118,6 +157,8 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         UpdateScore(GameManager.Instance.GetScore());
+        UpdateLevel(GameManager.Instance.GetLevel());
+        UpdateExp(GameManager.Instance.GetCurrentExp());
     }
 
     private void Update()
@@ -131,6 +172,8 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.OnChangeScore += UpdateScore;
+        GameManager.Instance.OnChangeLevel += UpdateLevel;
+        GameManager.Instance.OnChangeExp += UpdateExp;
 
         SoundManager.Instance.OnChangeVolume += UpdateVolume;
         bgmSlider.value = SoundManager.Instance.GetBGMVolume();
@@ -144,6 +187,8 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.OnChangeScore -= UpdateScore;
+        GameManager.Instance.OnChangeLevel -= UpdateLevel;
+        GameManager.Instance.OnChangeExp -= UpdateExp;
 
         SoundManager.Instance.OnChangeVolume -= UpdateVolume;
         bgmSlider.onValueChanged.RemoveListener(SoundManager.Instance.SetBGMVolume);
@@ -156,6 +201,7 @@ public class UIManager : MonoBehaviour
     public void OpenUI(bool _on)
     {
         OpenResult(_on);
+        OpenStat(_on);
         OpenConfirm(_on);
         OpenSetting(_on);
     }
@@ -165,9 +211,9 @@ public class UIManager : MonoBehaviour
         if (settingUI == null) return;
 
         OnOpenUI?.Invoke(_on);
-        SoundManager.Instance?.PauseBGM(_on);
 
         inGameUI.SetActive(!_on);
+
         settingUI.SetActive(_on);
     }
 
@@ -187,6 +233,27 @@ public class UIManager : MonoBehaviour
         if (_pass) _action?.Invoke();
     }
 
+    public void OpenStat(bool _on)
+    {
+        if (statUI == null) return;
+
+        OnOpenUI?.Invoke(_on);
+
+        inGameUI.SetActive(!_on);
+        settingUI.SetActive(!_on);
+        confirmUI.SetActive(!_on);
+
+        statUI.SetActive(_on);
+        for (int i = 0; i < itemStats.Count; i++)
+        {
+            var item = EntityManager.Instance.GetDatas()[i];
+
+            itemStats[i].go.name = item.Name;
+            itemStats[i].image.sprite = item.Image;
+            itemStats[i].level.text = item.Level.ToString("'LV.'00");
+        }
+    }
+
     public void OpenResult(bool _on)
     {
         if (resultUI == null) return;
@@ -196,6 +263,7 @@ public class UIManager : MonoBehaviour
         inGameUI.SetActive(!_on);
         settingUI.SetActive(!_on);
         confirmUI.SetActive(!_on);
+        statUI.SetActive(!_on);
 
         resultUI.SetActive(_on);
     }
@@ -217,6 +285,26 @@ public class UIManager : MonoBehaviour
         scoreText.text = s;
         settingScoreText.text = s;
         resultScoreText.text = s;
+    }
+
+    public void UpdateLevel(int _level)
+    {
+        string l = _level.ToString("'LV.'00");
+        levelText.text = l;
+    }
+
+    public void UpdateExp(int _cur)
+    {
+        int next = GameManager.Instance.GetNextExp();
+        if (next <= 0)
+        {
+            expSlider.maxValue = 1f;
+            expSlider.value = 1f;
+            return;
+        }
+
+        expSlider.maxValue = next;
+        expSlider.value = Mathf.Clamp(next - _cur, 0, next);
     }
 
     private void UpdateVolume(SoundType _type, float _volume)
@@ -271,6 +359,8 @@ public class UIManager : MonoBehaviour
 
     public void OnClickOkay() => confirmAction?.Invoke();
     public void OnClickCancel() => OpenConfirm(false);
+
+    public void OnClickStat() => OpenStat(true);
     #endregion
 
     #region SET
@@ -284,6 +374,7 @@ public class UIManager : MonoBehaviour
     #region GET
     public bool GetOnSetting() => settingUI.activeSelf;
     public bool GetOnConfirm() => confirmUI.activeSelf;
+    public bool GetOnStat() => statUI.activeSelf;
     public bool GetOnResult() => resultUI.activeSelf;
     #endregion
 }

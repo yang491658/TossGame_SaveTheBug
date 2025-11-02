@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Level")]
     [SerializeField] private int level = 0;
+    public event System.Action<int> OnChangeLevel;
     [SerializeField] private int currentExp = 0;
     [SerializeField] private int nextExp = 0;
-    [SerializeField] private int expUp = 5;
+    [SerializeField] private int expUp = 10;
+    public event System.Action<int> OnChangeExp;
 
     public bool IsPaused { private set; get; } = false;
     public bool IsGameOver { private set; get; } = false;
@@ -72,6 +74,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.ResetPlayTime();
         UIManager.Instance?.OpenUI(false);
 
+        EntityManager.Instance?.ResetDelay();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
 
@@ -83,7 +86,6 @@ public class GameManager : MonoBehaviour
     {
         score += _score;
         OnChangeScore?.Invoke(score);
-        AddExp(_score);
     }
 
     public void ResetScore()
@@ -102,6 +104,7 @@ public class GameManager : MonoBehaviour
             currentExp -= nextExp;
             LevelUp();
         }
+        OnChangeExp?.Invoke(currentExp);
     }
 
     private void LevelUp()
@@ -109,6 +112,8 @@ public class GameManager : MonoBehaviour
         level++;
         if (nextExp <= 0) nextExp = expUp;
         else nextExp += expUp;
+        OnChangeLevel?.Invoke(level);
+        OnChangeExp?.Invoke(currentExp);
     }
 
     public void ResetLevel()
@@ -116,6 +121,8 @@ public class GameManager : MonoBehaviour
         level = 0;
         currentExp = 0;
         nextExp = 0;
+        OnChangeLevel?.Invoke(level);
+        OnChangeExp?.Invoke(currentExp);
     }
     #endregion
 
@@ -172,5 +179,8 @@ public class GameManager : MonoBehaviour
 
     #region GET
     public int GetScore() => score;
+    public int GetLevel() => level;
+    public int GetCurrentExp() => currentExp;
+    public int GetNextExp() => nextExp;
     #endregion
 }

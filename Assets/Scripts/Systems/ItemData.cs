@@ -12,6 +12,9 @@ public class ItemData : EntityData
     public MonoScript Script;
     public int Sort;
 
+    [Header("Stat")]
+    public int Level;
+
 #if UNITY_EDITOR
     protected override void OnValidate()
     {

@@ -7,8 +7,6 @@ public class TestManager : MonoBehaviour
     public static TestManager Instance { private set; get; }
 
     [Header("Game Test")]
-    [SerializeField] private int testCount = 1;
-    [SerializeField] private bool isAutoPlay = false;
     [SerializeField] private bool isAutoReplay = false;
     [SerializeField][Min(1f)] private float replayTime = 5f;
     private Coroutine playRoutine;
@@ -30,6 +28,11 @@ public class TestManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Start()
+    {
+        SoundManager.Instance?.ToggleBGM();
+    }
+
     private void Update()
     {
         #region 게임 테스트
@@ -39,10 +42,7 @@ public class TestManager : MonoBehaviour
             GameManager.Instance?.GameOver();
 
         if (Input.GetKeyDown(KeyCode.O))
-        {
             isAutoReplay = !isAutoReplay;
-            AutoPlay();
-        }
         if (isAutoReplay && GameManager.Instance.IsGameOver && playRoutine == null)
             playRoutine = StartCoroutine(AutoReplay());
 
@@ -92,30 +92,17 @@ public class TestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
             UIManager.Instance?.OpenConfirm(!UIManager.Instance.GetOnConfirm());
         if (Input.GetKeyDown(KeyCode.C))
+            UIManager.Instance?.OpenStat(!UIManager.Instance.GetOnStat());
+        if (Input.GetKeyDown(KeyCode.V))
             UIManager.Instance?.OpenResult(!UIManager.Instance.GetOnResult());
         #endregion
-    }
-
-    private void AutoPlay()
-    {
-        if (!isAutoPlay)
-        {
-            isAutoPlay = true;
-        }
-        else
-        {
-            isAutoPlay = false;
-        }
     }
 
     private IEnumerator AutoReplay()
     {
         yield return new WaitForSecondsRealtime(replayTime);
         if (GameManager.Instance.IsGameOver)
-        {
-            testCount++;
             GameManager.Instance?.Replay();
-        }
         playRoutine = null;
     }
 }

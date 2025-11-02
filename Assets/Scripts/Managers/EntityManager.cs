@@ -252,6 +252,7 @@ public class EntityManager : MonoBehaviour
     #endregion
 
     #region GET
+    public IReadOnlyList<ItemData> GetDatas() => itemDatas;
     public Player GetPlayer() => player.GetComponent<Player>();
     public Item GetClone()
     {
