@@ -338,7 +338,7 @@ public class HandleManager : MonoBehaviour
     public void SetHandle()
     {
         if (player == null)
-            player = EntityManager.Instance.GetPlayer();
+            player = EntityManager.Instance?.GetPlayer();
 
         ring.gameObject.SetActive(false);
         handle.gameObject.SetActive(false);
