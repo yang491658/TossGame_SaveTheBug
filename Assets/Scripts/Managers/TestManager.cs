@@ -76,7 +76,7 @@ public class TestManager : MonoBehaviour
         for (int i = 1; i <= 10; i++)
         {
             KeyCode key = (i == 10) ? KeyCode.Alpha0 : (KeyCode)((int)KeyCode.Alpha0 + i);
-            if (Input.GetKey(key))
+            if (Input.GetKeyDown(key))
             {
                 Vector3 p = EntityManager.Instance.GetPlayer().transform.position;
                 EntityManager.Instance?.SpawnItem(i, p);
@@ -98,9 +98,9 @@ public class TestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Z))
             UIManager.Instance?.OpenSetting(!UIManager.Instance.GetOnSetting());
         if (Input.GetKeyDown(KeyCode.X))
-            UIManager.Instance?.OpenConfirm(!UIManager.Instance.GetOnConfirm());
-        if (Input.GetKeyDown(KeyCode.C))
             UIManager.Instance?.OpenStat(!UIManager.Instance.GetOnStat());
+        if (Input.GetKeyDown(KeyCode.C))
+            UIManager.Instance?.OpenConfirm(!UIManager.Instance.GetOnConfirm());
         if (Input.GetKeyDown(KeyCode.V))
             UIManager.Instance?.OpenResult(!UIManager.Instance.GetOnResult());
         #endregion

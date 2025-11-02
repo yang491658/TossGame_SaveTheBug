@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.ResetPlayTime();
         UIManager.Instance?.OpenUI(false);
 
-        EntityManager.Instance?.ResetItemDatas();
+        EntityManager.Instance?.ResetItemDatas(false);
         EntityManager.Instance?.ResetDelay();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
