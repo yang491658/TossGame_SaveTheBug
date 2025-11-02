@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         OnChangeExp?.Invoke(currentExp);
     }
 
-    private void LevelUp()
+    public void LevelUp()
     {
         level++;
         if (nextExp <= 0) nextExp = expUp;
