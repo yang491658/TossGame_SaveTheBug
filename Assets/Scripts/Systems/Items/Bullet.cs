@@ -50,7 +50,7 @@ public class Bullet : Item
     {
         for (int i = 0; i < count; i++)
         {
-            Bullet copy = EntityManager.Instance.SpawnItem(data.ID, player.transform.position)
+            Bullet copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Bullet>();
 
             copy.SetClone();

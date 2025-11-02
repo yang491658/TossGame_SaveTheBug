@@ -73,7 +73,7 @@ public class Shield : Item
 
         for (int i = 0; i < count; i++)
         {
-            Shield copy = EntityManager.Instance.SpawnItem(data.ID, player.transform.position + offs[i])
+            Shield copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position + offs[i])
                 .GetComponent<Shield>();
 
             copy.SetClone();

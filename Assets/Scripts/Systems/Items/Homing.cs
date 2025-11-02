@@ -82,7 +82,7 @@ public class Homing : Item
             float deg = start + step * i;
             Vector3 dir = SetRotate(baseDir, deg - start);
 
-            Homing copy = EntityManager.Instance.SpawnItem(data.ID, player.transform.position)
+            Homing copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Homing>();
 
             copy.SetClone();
@@ -102,7 +102,7 @@ public class Homing : Item
             if (isHoming)
             {
                 if (target == null)
-                    target = EntityManager.Instance.GetEnemyClosest(transform.position);
+                    target = EntityManager.Instance?.GetEnemyClosest(transform.position);
 
                 if (target != null)
                     direction = (target.transform.position - transform.position).normalized;

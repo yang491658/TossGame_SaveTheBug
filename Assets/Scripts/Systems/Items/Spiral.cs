@@ -54,7 +54,7 @@ public class Spiral : Item
         {
             Vector3 dir = Quaternion.Euler(0f, 0f, -angle * i) * baseDir;
 
-            Spiral copy = EntityManager.Instance.SpawnItem(data.ID, player.transform.position)
+            Spiral copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position)
                 .GetComponent<Spiral>();
 
             copy.SetClone();

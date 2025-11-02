@@ -48,7 +48,7 @@ public class Nuclear : Item
             int k = i == 0 ? 0 : ((i % 2 == 1) ? (i + 1) / 2 : -i / 2);
             Vector3 pos = new Vector3(c.x + gap * k, c.y, 0f);
 
-            Nuclear copy = EntityManager.Instance.SpawnItem(data.ID, pos)
+            Nuclear copy = EntityManager.Instance?.SpawnItem(data.ID, pos)
                 .GetComponent<Nuclear>();
 
             copy.SetClone();
