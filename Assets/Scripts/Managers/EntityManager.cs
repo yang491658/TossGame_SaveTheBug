@@ -166,8 +166,8 @@ public class EntityManager : MonoBehaviour
             eTimer += dt;
             iTimer += dt;
 
-            eDelay = Mathf.Max(0.05f, eDelay - dt / 50f);
-            iDelay = Mathf.Max(3f, iDelay - dt / 35f);
+            eDelay = Mathf.Max(eDelay - dt / 50f, 0.05f);
+            iDelay = Mathf.Max(iDelay - dt / 35f, 3f);
 
             int cnt = 0;
             while (eTimer >= eDelay && cnt++ < 4)
