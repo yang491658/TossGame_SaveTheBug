@@ -106,4 +106,6 @@ public class ItemData : EntityData
                 Stat += 1;
         }
     }
+
+    public void ResetStat() => Stat = 0;
 }

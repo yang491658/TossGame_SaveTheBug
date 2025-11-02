@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { private set; get; }
+    static public GameManager Instance { private set; get; }
 
     [Header("Score")]
     [SerializeField] private int score = 0;
@@ -12,24 +12,24 @@ public class GameManager : MonoBehaviour
     public event System.Action<int> OnChangeScore;
 
     [Header("Exp")]
-    [SerializeField] private int currentExp = 0;
-    [SerializeField] private int nextExp = 0;
-    [SerializeField] private int expUp = 10;
+    [SerializeField][Min(0)] private int currentExp = 0;
+    [SerializeField][Min(0)] private int nextExp = 0;
+    [SerializeField][Min(1)] private int expUp = 10;
     public event System.Action<int> OnChangeExp;
 
     [Header("Level")]
-    [SerializeField] private int level = 0;
+    [SerializeField][Min(0)] private int level = 0;
     public event System.Action<int> OnChangeLevel;
 
-    [Header("Pont")]
-    [SerializeField] private int point = 0;
+    [Header("Point")]
+    [SerializeField][Min(0)] private int point = 0;
     public event System.Action<int> OnChangePoint;
 
     public bool IsPaused { private set; get; } = false;
     public bool IsGameOver { private set; get; } = false;
 
-    [DllImport("__Internal")] private static extern void GameOverReact();
-    [DllImport("__Internal")] private static extern void ReplayReact();
+    [DllImport("__Internal")] static extern private void GameOverReact();
+    [DllImport("__Internal")] static extern private void ReplayReact();
 
     private void Awake()
     {
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         {
             int add = Mathf.FloorToInt(scoreAdd);
             scoreAdd -= add;
-            AddScore(add);
+            ScoreUp(add);
         }
     }
 
@@ -73,13 +73,14 @@ public class GameManager : MonoBehaviour
         ResetScore();
 
         ResetLevel();
-        LevelUp();
+        if (level == 0) LevelUp();
 
         SoundManager.Instance?.PlayBGM("Default");
 
         UIManager.Instance?.ResetPlayTime();
         UIManager.Instance?.OpenUI(false);
 
+        EntityManager.Instance?.ResetItemDatas();
         EntityManager.Instance?.ResetDelay();
         EntityManager.Instance?.SetEntity();
         EntityManager.Instance?.ToggleSpawn(true);
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region 점수
-    public void AddScore(int _score = 1)
+    public void ScoreUp(int _score = 1)
     {
         score += _score;
         OnChangeScore?.Invoke(score);
@@ -101,8 +102,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region 레벨
-    public void AddExp(int _exp)
+    #region 경험치
+    public void ExpUp(int _exp = 1)
     {
         currentExp += _exp;
         while (nextExp > 0 && currentExp >= nextExp)
@@ -113,33 +114,53 @@ public class GameManager : MonoBehaviour
         OnChangeExp?.Invoke(currentExp);
     }
 
-    public void LevelUp()
+    public void ResetExp()
     {
-        level++;
-        point++;
+        currentExp = 0;
+        nextExp = 0;
+        OnChangeExp?.Invoke(currentExp);
+    }
+    #endregion
+
+    #region 레벨
+    public void LevelUp(int _level = 1)
+    {
+        level += _level;
+        OnChangeLevel?.Invoke(level);
 
         if (nextExp <= 0) nextExp = expUp;
         else nextExp += expUp;
-        OnChangeLevel?.Invoke(level);
         OnChangeExp?.Invoke(currentExp);
-        OnChangePoint?.Invoke(point);
+
+        PointUp();
     }
 
     public void ResetLevel()
     {
         level = 0;
-        currentExp = 0;
-        nextExp = 0;
-        point = 0;
         OnChangeLevel?.Invoke(level);
-        OnChangeExp?.Invoke(currentExp);
+
+        ResetExp();
+        ResetPoint();
     }
     #endregion
 
     #region 포인트
+    public void PointUp(int _point = 1)
+    {
+        point += _point;
+        OnChangePoint?.Invoke(point);
+    }
+
     public void UsePoint()
     {
         point--;
+        OnChangePoint?.Invoke(point);
+    }
+
+    public void ResetPoint()
+    {
+        point = 0;
         OnChangePoint?.Invoke(point);
     }
     #endregion

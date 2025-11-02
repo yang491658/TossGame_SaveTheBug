@@ -34,7 +34,7 @@ public struct ItemSlot
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { private set; get; }
+    static public UIManager Instance { private set; get; }
 
     public event System.Action<bool> OnOpenUI;
 
@@ -65,9 +65,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUI;
-    [SerializeField] private TextMeshProUGUI statLevelText;
     [SerializeField] private TextMeshProUGUI statPointText;
-    [SerializeField] private List<ItemSlot> statItems = new List<ItemSlot>();
+    [SerializeField][NonReorderable] private List<ItemSlot> statItems = new List<ItemSlot>();
 
     [Header("Result UI")]
     [SerializeField] private GameObject resultUI;
@@ -116,8 +115,6 @@ public class UIManager : MonoBehaviour
 
         if (statUI == null)
             statUI = GameObject.Find("StatUI");
-        if (statLevelText == null)
-            statLevelText = GameObject.Find("StatUI/Level/LevelText").GetComponent<TextMeshProUGUI>();
         if (statPointText == null)
             statPointText = GameObject.Find("StatUI/Point/PointText").GetComponent<TextMeshProUGUI>();
         if (statItems == null || statItems.Count == 0)
@@ -130,7 +127,7 @@ public class UIManager : MonoBehaviour
             resultScoreText = GameObject.Find("ResultUI/Score/ScoreText")?.GetComponent<TextMeshProUGUI>();
     }
 
-    private static void LoadSprite(List<Sprite> _list, string _sprite)
+    static private void LoadSprite(List<Sprite> _list, string _sprite)
     {
         if (string.IsNullOrEmpty(_sprite)) return;
         string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/Imports/Dark UI/Icons" });
@@ -325,7 +322,6 @@ public class UIManager : MonoBehaviour
     {
         string l = _level.ToString("'LV.'00");
         levelText.text = l;
-        statLevelText.text = l;
 
         if (statUI.activeSelf)
         {

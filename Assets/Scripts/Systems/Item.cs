@@ -40,8 +40,8 @@ public class Item : Entity
     {
         if (_collision.CompareTag("Enemy") && isActive)
         {
-            GameManager.Instance?.AddScore(5);
-            GameManager.Instance?.AddExp(5);
+            GameManager.Instance?.ScoreUp(5);
+            GameManager.Instance?.ExpUp(5);
             EntityManager.Instance?.RemoveEnemy(_collision.GetComponent<Enemy>());
         }
     }

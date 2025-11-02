@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestManager : MonoBehaviour
 {
-    public static TestManager Instance { private set; get; }
+    static public TestManager Instance { private set; get; }
 
     [Header("Game Test")]
     [SerializeField] private bool isAutoReplay = false;

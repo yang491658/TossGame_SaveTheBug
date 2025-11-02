@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class HandleManager : MonoBehaviour
 {
-    public static HandleManager Instance { private set; get; }
+    static public HandleManager Instance { private set; get; }
 
     private Camera cam => Camera.main;
     private float time;

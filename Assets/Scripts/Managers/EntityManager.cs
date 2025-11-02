@@ -9,7 +9,7 @@ using UnityEditor;
 
 public class EntityManager : MonoBehaviour
 {
-    public static EntityManager Instance { private set; get; }
+    static public EntityManager Instance { private set; get; }
 
     private enum SpawnKind { Enemy, Item }
 
@@ -21,7 +21,9 @@ public class EntityManager : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField][Min(0.05f)] private float eDelay = 5;
-    [SerializeField][Min(3f)] private float iDelay = 10f;
+    [SerializeField][Min(0.05f)] private float eDelayMin = 0.05f;
+    [SerializeField][Min(0.05f)] private float iDelay = 10f;
+    [SerializeField][Min(0.05f)] private float iDelayMin = 3f;
     private float eDelayBase;
     private float iDelayBase;
     private Coroutine spawnRoutine;
@@ -91,11 +93,26 @@ public class EntityManager : MonoBehaviour
 
     #region 아이템
     private ItemData SearchItem(int _id) => itemDic.TryGetValue(_id, out var _data) ? _data : null;
+    private ItemData RandomItem()
+    {
+        ItemData pick = null;
+        int k = 0;
+
+        for (int i = 0; i < itemDatas.Length; i++)
+        {
+            var d = itemDatas[i];
+            if (d != null && d.Stat != 0)
+                if (Random.Range(0, ++k) == 0)
+                    pick = d;
+        }
+
+        return pick;
+    }
 
     public Item SpawnItem(int _id = 0, Vector3? _pos = null)
     {
         ItemData data = (_id == 0)
-            ? itemDatas[Random.Range(0, itemDatas.Length)]
+            ? RandomItem()
             : SearchItem(_id);
         if (data == null) return null;
 
@@ -111,6 +128,12 @@ public class EntityManager : MonoBehaviour
         items.Add(i);
 
         return i;
+    }
+
+    public void ResetItemDatas()
+    {
+        foreach (var item in itemDatas)
+            item.ResetStat();
     }
     #endregion
 
@@ -166,24 +189,33 @@ public class EntityManager : MonoBehaviour
             eTimer += dt;
             iTimer += dt;
 
-            eDelay = Mathf.Max(eDelay - dt / 50f, 0.05f);
-            iDelay = Mathf.Max(iDelay - dt / 35f, 3f);
+            eDelay = Mathf.Max(eDelay - dt / 50f, eDelayMin);
+            iDelay = Mathf.Max(iDelay - dt / 35f, iDelayMin);
 
             int cnt = 0;
             while (eTimer >= eDelay && cnt++ < 4)
             {
-                SpawnEnemy();
-                yield return new WaitForSeconds(0.01f);
-
+                var enemy = SpawnEnemy();
+                if (enemy == null)
+                {
+                    eTimer = Mathf.Min(eTimer, eDelay);
+                    break;
+                }
                 eTimer -= eDelay;
+                yield return new WaitForSeconds(0.01f);
             }
 
             cnt = 0;
             while (iTimer >= iDelay && cnt++ < 4)
             {
-                SpawnItem();
-                yield return new WaitForSeconds(0.01f);
+                var item = SpawnItem();
+                if (item == null)
+                {
+                    iTimer = Mathf.Min(iTimer, iDelay);
+                    break;
+                }
                 iTimer -= iDelay;
+                yield return new WaitForSeconds(0.01f);
             }
 
             yield return null;
@@ -220,7 +252,7 @@ public class EntityManager : MonoBehaviour
         _item.StartCoroutine(RemoveCoroutine(_item, _duration));
     }
 
-    private static IEnumerator RemoveCoroutine(Item _item, float _duration)
+    static private IEnumerator RemoveCoroutine(Item _item, float _duration)
     {
         yield return new WaitForSeconds(_duration);
 
