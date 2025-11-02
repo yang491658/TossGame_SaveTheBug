@@ -59,7 +59,7 @@ public class Bounce : Item
         => Move(direction * Mathf.Max(player.GetSpeed() * speedRatio, minSpeed));
 
     #region SET
-    public void SetDirection(Vector3 _dir)
+    private void SetDirection(Vector3 _dir)
     {
         transform.up = _dir;
         direction = _dir;

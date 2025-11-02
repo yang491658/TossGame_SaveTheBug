@@ -133,7 +133,7 @@ public class EntityManager : MonoBehaviour
     public void ResetItemDatas()
     {
         foreach (var item in itemDatas)
-            item.ResetStat();
+            item.Stat = 0;
     }
     #endregion
 

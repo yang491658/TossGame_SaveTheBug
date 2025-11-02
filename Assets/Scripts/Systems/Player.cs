@@ -51,7 +51,7 @@ public class Player : Entity
             _collision.GetComponent<Item>().UseItem();
     }
 
-    #region
+    #region GET
     public float GetSpeed() => rb.linearVelocity.magnitude;
     #endregion
 }

@@ -21,9 +21,9 @@ public class Shield : Item
     private bool isFired = false;
     [SerializeField] private float duration = 5f;
     [SerializeField] private float speed = 10f;
-    #endregion
+	#endregion
 
-    protected override void Update()
+	protected override void Update()
     {
         base.Update();
 
@@ -37,7 +37,7 @@ public class Shield : Item
             transform.position = player.transform.position + offset;
     }
 
-    public override void UseItem()
+	public override void UseItem()
     {
         if (isActive) return;
         base.UseItem();
@@ -89,9 +89,9 @@ public class Shield : Item
         Move(Vector2.up * speed);
     }
 
-    #region SET
-    public void SetClone() => isOrigin = false;
-    public void SetOffset(Vector3 _off) => offset = _off;
+	#region SET
+	public void SetClone() => isOrigin = false;
+	public void SetOffset(Vector3 _off) => offset = _off;
     #endregion
 }
 

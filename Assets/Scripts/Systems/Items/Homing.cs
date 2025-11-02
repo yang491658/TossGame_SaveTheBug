@@ -122,7 +122,7 @@ public class Homing : Item
 
     #region SET
     public void SetClone() => isOrigin = false;
-    public Vector3 SetRotate(Vector3 _dir, float _deg)
+    private Vector3 SetRotate(Vector3 _dir, float _deg)
     {
         float r = _deg * Mathf.Deg2Rad;
         float cs = Mathf.Cos(r);

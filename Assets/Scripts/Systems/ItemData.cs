@@ -96,7 +96,7 @@ public class ItemData : EntityData
     public void StatUp()
     {
         if (Level > GameManager.Instance?.GetLevel()) return;
-        
+
         if (GameManager.Instance?.GetStatPoint() > 0)
         {
             GameManager.Instance?.UsePoint();
@@ -106,6 +106,4 @@ public class ItemData : EntityData
                 Stat += 1;
         }
     }
-
-    public void ResetStat() => Stat = 0;
 }

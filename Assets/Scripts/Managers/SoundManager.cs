@@ -195,8 +195,6 @@ public class SoundManager : MonoBehaviour
     #region GET
     public float GetBGMVolume() => bgmVol;
     public float GetSFXVolume() => sfxVol;
-    public float GetSFXLength(string _name) =>
-        sfxDict.TryGetValue(_name, out var _clip) && _clip != null ? _clip.length : 0f;
 
     public bool IsBGMMuted() => bgmSource != null && bgmSource.mute;
     public bool IsSFXMuted() => sfxSource != null && sfxSource.mute;

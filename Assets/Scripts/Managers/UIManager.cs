@@ -36,7 +36,7 @@ public class UIManager : MonoBehaviour
 {
     static public UIManager Instance { private set; get; }
 
-    public event System.Action<bool> OnOpenUI;
+    private event System.Action<bool> OnOpenUI;
 
     [Header("InGame UI")]
     [SerializeField] private GameObject inGameUI;
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     [Header("Confirm UI")]
     [SerializeField] private GameObject confirmUI;
     [SerializeField] private TextMeshProUGUI confirmText;
-    private System.Action confirmAction;
+    public System.Action confirmAction;
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUI;
@@ -289,7 +289,7 @@ public class UIManager : MonoBehaviour
     #region 업데이트
     public void ResetPlayTime() => playTime = 0;
 
-    private void UpdatePlayTime()
+    public void UpdatePlayTime()
     {
         int total = Mathf.FloorToInt(playTime);
         string s = (total / 60).ToString("00") + ":" + (total % 60).ToString("00");
@@ -344,7 +344,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void UpdateVolume(SoundType _type, float _volume)
+    public void UpdateVolume(SoundType _type, float _volume)
     {
         switch (_type)
         {
@@ -364,7 +364,7 @@ public class UIManager : MonoBehaviour
         UpdateIcon();
     }
 
-    private void UpdateIcon()
+    public void UpdateIcon()
     {
         if (bgmIcons.Count >= 2)
             bgmIcon.sprite = SoundManager.Instance.IsBGMMuted() ? bgmIcons[1] : bgmIcons[0];
@@ -380,7 +380,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void UpdateStat(int _index, ItemData _item)
+    public void UpdateStat(int _index, ItemData _item)
     {
         statItems[_index].stat.text = _item.Stat.ToString();
 
@@ -416,7 +416,7 @@ public class UIManager : MonoBehaviour
     public void OnClickCancel() => OpenConfirm(false);
 
     public void OnClickStat() => OpenStat(true);
-    private void OnClickStatUp(int _index)
+    public void OnClickStatUp(int _index)
     {
         var item = EntityManager.Instance?.GetDatas()[_index];
         item.StatUp();
