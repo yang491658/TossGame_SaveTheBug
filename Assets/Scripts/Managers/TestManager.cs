@@ -30,11 +30,6 @@ public class TestManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
-    {
-        SoundManager.Instance?.ToggleBGM();
-    }
-
     private void Update()
     {
         #region 게임 테스트
@@ -73,7 +68,7 @@ public class TestManager : MonoBehaviour
         for (int i = 1; i <= 10; i++)
         {
             KeyCode key = (i == 10) ? KeyCode.Alpha0 : (KeyCode)((int)KeyCode.Alpha0 + i);
-            if (Input.GetKeyDown(key))
+            if (Input.GetKey(key))
             {
                 Vector3 p = EntityManager.Instance.GetPlayer().transform.position;
                 EntityManager.Instance?.SpawnItem(i, p);

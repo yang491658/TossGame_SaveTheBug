@@ -4,7 +4,7 @@ public class Bomb : Item
 {
     #region 스케일
     [Header("Scale")]
-    [SerializeField] private float scale = 3.5f;
+    [SerializeField] private float scale = 4f;
     [SerializeField] private float spin = -30f;
     #endregion
 

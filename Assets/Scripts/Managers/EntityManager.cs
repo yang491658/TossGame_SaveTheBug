@@ -20,8 +20,10 @@ public class EntityManager : MonoBehaviour
     private readonly Dictionary<int, ItemData> itemDic = new Dictionary<int, ItemData>();
 
     [Header("Spawn Settings")]
-    [SerializeField][Min(0.05f)] private float eDelay = 5f;
+    [SerializeField][Min(0.05f)] private float eDelay = 5;
     [SerializeField][Min(3f)] private float iDelay = 10f;
+    private float eDelayBase;
+    private float iDelayBase;
     private Coroutine spawnRoutine;
 
     [Header("Entities")]
@@ -187,6 +189,12 @@ public class EntityManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public void ResetDelay()
+    {
+        eDelay = eDelayBase;
+        iDelay = iDelayBase;
+    }
     #endregion
 
     #region 제거
@@ -237,6 +245,9 @@ public class EntityManager : MonoBehaviour
         if (player == null) player = GameObject.Find("InGame/Player")?.transform;
         if (enemyTrans == null) enemyTrans = GameObject.Find("InGame/Enemies")?.transform;
         if (itemTrans == null) itemTrans = GameObject.Find("InGame/Items")?.transform;
+
+        eDelayBase = eDelay;
+        iDelayBase = iDelay;
     }
     #endregion
 
