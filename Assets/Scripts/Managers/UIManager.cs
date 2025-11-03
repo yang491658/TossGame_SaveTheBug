@@ -225,9 +225,7 @@ public class UIManager : MonoBehaviour
         if (settingUI == null) return;
 
         OnOpenUI?.Invoke(_on);
-
         inGameUI.SetActive(!_on);
-
         settingUI.SetActive(_on);
     }
 
@@ -236,9 +234,7 @@ public class UIManager : MonoBehaviour
         if (statUI == null) return;
 
         OnOpenUI?.Invoke(_on);
-
         inGameUI.SetActive(!_on);
-
         statUI.SetActive(_on);
 
         var datas = EntityManager.Instance?.GetDatas();
@@ -288,12 +284,7 @@ public class UIManager : MonoBehaviour
         if (resultUI == null) return;
 
         OnOpenUI?.Invoke(_on);
-
         inGameUI.SetActive(!_on);
-        settingUI.SetActive(!_on);
-        confirmUI.SetActive(!_on);
-        statUI.SetActive(!_on);
-
         resultUI.SetActive(_on);
     }
     #endregion
@@ -359,7 +350,7 @@ public class UIManager : MonoBehaviour
         prevLevel = _level;
     }
 
-    private void UpdateLevelText()
+    public void UpdateLevelText()
     {
         float s = Mathf.PingPong(playTime * 4f, 1f);
 
@@ -471,12 +462,7 @@ public class UIManager : MonoBehaviour
     public void OnClickSFX() => SoundManager.Instance?.ToggleSFX();
 
     public void OnClickStat() => OpenStat(true);
-    public void OnClickStatUp(int _index)
-    {
-        var item = EntityManager.Instance?.GetDatas()[_index];
-        item.StatUp();
-        UpdateStat(_index, item);
-    }
+    public void OnClickStatUp(int _index) => EntityManager.Instance?.GetDatas()[_index].StatUp();
     public void OnClickReset() => OpenConfirm(true, "초기화", () => EntityManager.Instance.ResetItems(true));
 
     public void OnClickReplay() => OpenConfirm(true, "다시", GameManager.Instance.Replay);

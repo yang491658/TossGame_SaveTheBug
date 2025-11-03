@@ -96,15 +96,16 @@ public class ItemData : EntityData
     public void StatUp()
     {
         if (Level > GameManager.Instance?.GetLevel()) return;
-
+        if (Stat >= MaxStat) return;
         if (GameManager.Instance?.GetPoint() > 0)
         {
-            GameManager.Instance?.UsePoint();
-
             if (MaxStat > 0)
                 Stat = Mathf.Min(Stat + 1, MaxStat);
             else
                 Stat += 1;
+
+            GameManager.Instance?.UsePoint();
+            UIManager.Instance?.UpdateStat(ID - 1, this);
         }
     }
 
