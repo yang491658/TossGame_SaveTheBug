@@ -9,7 +9,7 @@ public class Item : Entity
 
     [Header("Stat")]
     [SerializeField] private float speed = 3.5f;
-    [SerializeField] protected int stat;
+    [SerializeField] protected int bonus;
     [SerializeField] private float delay = 15f;
 
     protected override void Awake()
@@ -69,7 +69,7 @@ public class Item : Entity
     {
         base.SetData(_data);
 
-        stat = ((ItemData)_data).Stat;
+        bonus = ((ItemData)_data).Stat;
     }
     #endregion
 }
