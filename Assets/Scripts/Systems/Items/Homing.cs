@@ -120,8 +120,7 @@ public class Homing : Item
         }
     }
 
-    private void Fire()
-        => Move(direction * speed);
+    private void Fire() => Move(direction * speed);
 
     #region SET
     public void SetClone() => isOrigin = false;

@@ -14,7 +14,8 @@ public class Shield : Item
     private Player player;
 
     private bool isOrigin = true;
-    [SerializeField] private int count = 3;
+    [SerializeField] private int count = 2;
+    [SerializeField] private int countBonus = 1;
     [SerializeField] private float gap = 2f;
     private Vector3 offset;
 
@@ -71,7 +72,7 @@ public class Shield : Item
             diag * Vector3.left,
         };
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count + countBonus * bonus; i++)
         {
             Shield copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position + offs[i])
                 .GetComponent<Shield>();
@@ -84,7 +85,7 @@ public class Shield : Item
 
     private IEnumerator FireCoroutine()
     {
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration * bonus);
         isFired = true;
         Move(Vector2.up * speed);
     }

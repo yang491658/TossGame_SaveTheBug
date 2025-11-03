@@ -13,7 +13,8 @@ public class Spiral : Item
     private Player player;
 
     private bool isOrigin = true;
-    [SerializeField] private int count = 12;
+    [SerializeField] private int count = 1;
+    [SerializeField] private int countBonus = 12;
     [SerializeField] private float angle = 30f;
     [SerializeField] private float speed = 8f;
     private Vector3 direction = Vector3.up;
@@ -50,7 +51,7 @@ public class Spiral : Item
     {
         Vector3 baseDir = player.transform.up;
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count + countBonus * bonus; i++)
         {
             Vector3 dir = Quaternion.Euler(0f, 0f, -angle * i) * baseDir;
 

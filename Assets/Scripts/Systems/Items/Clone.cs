@@ -9,7 +9,8 @@ public class Clone : Item
 
     #region ´É·Â
     [Header("Ability")]
-    [SerializeField] private float speed = 8f;
+    [SerializeField] private float speed = 9f;
+    [SerializeField] private float speedBonus = 8f;
     #endregion
 
     public override void UseItem()
@@ -22,5 +23,5 @@ public class Clone : Item
     }
 
     private void Fire()
-        => Move(Vector3.up * speed);
+        => Move(Vector3.up * (speed - speedBonus * bonus));
 }

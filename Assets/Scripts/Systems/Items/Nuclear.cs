@@ -11,9 +11,11 @@ public class Nuclear : Item
     #region ´É·Â
     [Header("Ability")]
     private bool isOrigin = true;
-    [SerializeField] private int count = 3;
+    [SerializeField] private int count = 1;
+    [SerializeField] private int countBonus = 2;
     [SerializeField] private float gap = 1.5f;
-    [SerializeField] private float speed = 15f;
+    [SerializeField] private float speed = 16f;
+    [SerializeField] private float speedBonus = 2f;
     #endregion
 
     protected override void Update()
@@ -43,7 +45,7 @@ public class Nuclear : Item
     {
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin, 0f);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count + countBonus * bonus; i++)
         {
             int k = i == 0 ? 0 : ((i % 2 == 1) ? (i + 1) / 2 : -i / 2);
             Vector3 pos = new Vector3(c.x + gap * k, c.y, 0f);
@@ -56,7 +58,8 @@ public class Nuclear : Item
         }
     }
 
-    private void Fire() => Move(Vector3.up * speed);
+    private void Fire() 
+        => Move(Vector3.up * (speed - speedBonus * bonus));
 
     #region SET
     public void SetClone() => isOrigin = false;
