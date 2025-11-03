@@ -309,18 +309,18 @@ public class UIManager : MonoBehaviour
         resultScoreText.text = s;
     }
 
-    public void UpdateExp(int _cur)
+    public void UpdateExp(int _currentExp)
     {
-        int next = GameManager.Instance.GetNextExp();
-        if (next <= 0)
+        int nextExp = GameManager.Instance.GetNextExp();
+        if (nextExp <= 0)
         {
             expSlider.maxValue = 1f;
             expSlider.value = 1f;
             return;
         }
 
-        expSlider.maxValue = next;
-        expSlider.value = Mathf.Clamp(next - _cur, 0, next);
+        expSlider.maxValue = nextExp;
+        expSlider.value = Mathf.Clamp(nextExp - _currentExp, 0, nextExp);
     }
 
     public void UpdateLevel(int _level)

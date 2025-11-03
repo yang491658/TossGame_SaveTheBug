@@ -101,7 +101,7 @@ public class EntityManager : MonoBehaviour
         for (int i = 0; i < itemDatas.Length; i++)
         {
             var d = itemDatas[i];
-            if (d != null && d.Stat != 0)
+            if (d != null && d.Level <= GameManager.Instance.GetLevel())
                 if (Random.Range(0, ++k) == 0)
                     pick = d;
         }

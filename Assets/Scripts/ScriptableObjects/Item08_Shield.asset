@@ -18,5 +18,5 @@ MonoBehaviour:
   Script: {fileID: 11500000, guid: 9384a98ab49008e41b28cdfe1fd97ee7, type: 3}
   Sort: 5
   Level: 25
-  Stat: 0
+  Stat: 1
   MaxStat: 10

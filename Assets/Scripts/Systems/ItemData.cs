@@ -14,7 +14,7 @@ public class ItemData : EntityData
 
     [Header("Stat")]
     [Min(1)] public int Level = 1;
-    public int Stat = 0;
+    public int Stat = 1;
     [Min(0)] public int MaxStat = 10;
 
 #if UNITY_EDITOR
@@ -109,8 +109,8 @@ public class ItemData : EntityData
 
     public void ResetStat(bool _refund)
     {
-        int refund = Stat;
-        Stat = 0;
+        int refund = Stat - 1;
+        Stat = 1;
 
         if (_refund)
             GameManager.Instance?.PointUp(refund);
