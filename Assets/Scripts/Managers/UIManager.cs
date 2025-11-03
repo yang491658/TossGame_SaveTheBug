@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject statUI;
     [SerializeField] private TextMeshProUGUI statPointText;
     [SerializeField][NonReorderable] private List<ItemSlot> statItems = new List<ItemSlot>();
+    private int prevLevel;
+    private int prevPoint;
 
     [Header("Confirm UI")]
     [SerializeField] private GameObject confirmUI;
@@ -161,10 +163,13 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        prevLevel = GameManager.Instance.GetLevel();
+        prevPoint = GameManager.Instance.GetPoint();
+
         UpdateScore(GameManager.Instance.GetScore());
         UpdateExp(GameManager.Instance.GetCurrentExp());
         UpdateLevel(GameManager.Instance.GetLevel());
-        UpdatePoint(GameManager.Instance.GetStatPoint());
+        UpdatePoint(GameManager.Instance.GetPoint());
     }
 
     private void Update()
@@ -396,11 +401,13 @@ public class UIManager : MonoBehaviour
 
         bool canUp =
             (GameManager.Instance?.GetLevel() >= _item.Level) &&
-            (GameManager.Instance?.GetStatPoint() > 0) &&
+            (GameManager.Instance?.GetPoint() > 0) &&
             (_item.MaxStat == 0 || _item.Stat < _item.MaxStat);
 
         statItems[_index].upBtn.interactable = canUp;
         statItems[_index].upBtnText.color = canUp ? Color.blue : new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
+        statItems[_index].go.SetActive(_item.Level <= GameManager.Instance?.GetLevel());
     }
     #endregion
 
