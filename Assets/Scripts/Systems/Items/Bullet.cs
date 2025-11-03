@@ -17,7 +17,6 @@ public class Bullet : Item
     [SerializeField] private float speedRatio = 3f;
     [SerializeField] private float minSpeed = 1f;
     private Vector3 direction = Vector3.up;
-    [SerializeField] private float delay = 0.3f;
     #endregion
 
     private void LateUpdate()
@@ -57,7 +56,8 @@ public class Bullet : Item
             copy.SetDirection(player.transform.up);
             copy.UseItem();
 
-            yield return new WaitForSeconds(delay);
+            while ((copy.transform.position - player.transform.position).sqrMagnitude < scale * scale / 2f)
+                yield return null;
         }
 
         EntityManager.Instance?.RemoveItem(this);
