@@ -42,12 +42,12 @@ public class Item : Entity
         if (_collision.CompareTag("Enemy") && isActive)
         {
             GameManager.Instance?.ScoreUp(5);
-            GameManager.Instance?.ExpUp(5);
+            GameManager.Instance?.ExpUp(1);
             EntityManager.Instance?.RemoveEnemy(_collision.GetComponent<Enemy>());
         }
     }
 
-    private void OnBecameInvisible()
+    protected virtual void OnBecameInvisible()
     {
         EntityManager.Instance?.RemoveItem(this);
     }

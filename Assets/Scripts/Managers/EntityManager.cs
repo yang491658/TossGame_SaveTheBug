@@ -310,6 +310,8 @@ public class EntityManager : MonoBehaviour
         if (enemyTrans == null) enemyTrans = GameObject.Find("InGame/Enemies")?.transform;
         if (itemTrans == null) itemTrans = GameObject.Find("InGame/Items")?.transform;
 
+        Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin * 0.6f, 0f);
+        player.transform.localPosition = c;
         eDelayBase = eDelay;
         iDelayBase = iDelay;
     }

@@ -21,6 +21,7 @@ public class Shield : Item
 
     private bool isFired = false;
     [SerializeField] private float duration = 5f;
+    [SerializeField] private float durationBonus = 5f;
     [SerializeField] private float speed = 10f;
     #endregion
 
@@ -36,6 +37,12 @@ public class Shield : Item
     {
         if (isActive && !isFired)
             transform.position = player.transform.position + offset;
+    }
+
+    protected override void OnBecameInvisible()
+    {
+        if (isFired)
+            EntityManager.Instance.RemoveItem(this);
     }
 
     public override void UseItem()
@@ -85,7 +92,7 @@ public class Shield : Item
 
     private IEnumerator FireCoroutine()
     {
-        yield return new WaitForSeconds(duration * bonus);
+        yield return new WaitForSeconds(duration + durationBonus * bonus);
         isFired = true;
         Move(Vector2.up * speed);
     }

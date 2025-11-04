@@ -80,9 +80,14 @@ public class TestManager : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
                 {
+                    ItemData item = EntityManager.Instance?.SearchItem(i);
+
+                    if (item.Level > GameManager.Instance?.GetLevel())
+                        GameManager.Instance?.LevelUp(item.Level - GameManager.Instance.GetLevel());
                     if (GameManager.Instance?.GetPoint() <= 0)
                         GameManager.Instance?.LevelUp();
-                    EntityManager.Instance?.SearchItem(i).StatUp();
+                    
+                    item.StatUp();
                     break;
                 }
                 else

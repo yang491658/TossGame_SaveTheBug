@@ -46,7 +46,7 @@ public class ItemData : EntityData
         else ID = 0;
 
         Level = Mathf.Max(Level, 1);
-        
+
         if (MaxStat > 0)
         {
             MaxStat = Mathf.Max(MaxStat, Stat);
@@ -79,16 +79,15 @@ public class ItemData : EntityData
     {
         if (Level > GameManager.Instance?.GetLevel()) return;
         if (Stat >= MaxStat) return;
-        if (GameManager.Instance?.GetPoint() > 0)
-        {
-            if (MaxStat > 0)
-                Stat = Mathf.Min(Stat + 1, MaxStat);
-            else
-                Stat += 1;
+        if (GameManager.Instance?.GetPoint() <= 0) return;
 
-            GameManager.Instance?.UsePoint();
-            UIManager.Instance?.UpdateStat(ID - 1, this);
-        }
+        if (MaxStat > 0)
+            Stat = Mathf.Min(Stat + 1, MaxStat);
+        else
+            Stat += 1;
+
+        GameManager.Instance?.UsePoint();
+        UIManager.Instance?.UpdateStat(ID - 1, this);
     }
 
     public void ResetStat(bool _refund)

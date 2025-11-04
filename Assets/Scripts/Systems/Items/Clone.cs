@@ -10,7 +10,7 @@ public class Clone : Item
     #region ´É·Â
     [Header("Ability")]
     [SerializeField] private float speed = 9f;
-    [SerializeField] private float speedBonus = 1f;
+    [SerializeField] private float speedBonus = 2f;
     #endregion
 
     public override void UseItem()

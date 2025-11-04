@@ -338,9 +338,10 @@ public class UIManager : MonoBehaviour
             }
         }
 
-        if (newItem)
+        string t = levelText.text;
+        if (newItem && t != "NEW")
             levelText.text = "NEW";
-        else
+        else if (t != "NEW" && t != "UP")
             levelText.text = _level.ToString("'LV.'00");
 
         if (statUI.activeSelf)
@@ -429,8 +430,6 @@ public class UIManager : MonoBehaviour
 
     public void UpdateStat(int _index, ItemData _item)
     {
-        statItems[_index].stat.text = _item.Stat.ToString();
-
         if (_item.MaxStat > 0 && _item.Stat >= _item.MaxStat)
         {
             statItems[_index].stat.text = "MAX";
