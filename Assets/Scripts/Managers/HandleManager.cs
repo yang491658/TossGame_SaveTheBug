@@ -28,7 +28,7 @@ public class HandleManager : MonoBehaviour
     [Header("Sensitivity")]
     [SerializeField] private float sens = 1f;
     [SerializeField] private float minSens = 0.5f;
-    [SerializeField] private float maxSens = 3f;
+    [SerializeField] private float maxSens = 2f;
 
     [Header("Aim")]
     [SerializeField] private bool aimVisible = false;
