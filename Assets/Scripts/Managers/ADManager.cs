@@ -109,7 +109,7 @@ public class ADManager : MonoBehaviour
         else
         {
             banner?.Hide();
-            UIManager.Instance?.SetInGameUI(Screen.safeArea.height);
+            UIManager.Instance?.SetInGameUI(0f);
         }
     }
 
