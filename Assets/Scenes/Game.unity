@@ -1654,7 +1654,7 @@ MonoBehaviour:
   maxDrag: 5
   sens: 1
   minSens: 0.5
-  maxSens: 3
+  maxSens: 2
   aimVisible: 0
   ring: {fileID: 0}
   handle: {fileID: 0}
