@@ -51,11 +51,11 @@ public class Bounce : Item
 
         transform.localScale *= scale;
         player = EntityManager.Instance?.GetPlayer();
-        bounce += bounceBonus * bonus;
+        bounce += bounceBonus * bonusStat;
 
         SetDirection(player.transform.up);
         Fire();
-        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
+        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
     }
 
     private void Fire()

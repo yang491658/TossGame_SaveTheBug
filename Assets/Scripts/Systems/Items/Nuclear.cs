@@ -45,7 +45,7 @@ public class Nuclear : Item
     {
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin, 0f);
 
-        for (int i = 0; i < count + countBonus * bonus; i++)
+        for (int i = 0; i < count + countBonus * bonusStat; i++)
         {
             int k = i == 0 ? 0 : ((i % 2 == 1) ? (i + 1) / 2 : -i / 2);
             Vector3 pos = new Vector3(c.x + gap * k, c.y, 0f);
@@ -59,7 +59,7 @@ public class Nuclear : Item
     }
 
     private void Fire() 
-        => Move(Vector3.up * (speed - speedBonus * bonus));
+        => Move(Vector3.up * (speed - speedBonus * bonusStat));
 
     #region SET
     public void SetClone() => isOrigin = false;

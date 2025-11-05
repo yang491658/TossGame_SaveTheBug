@@ -5,8 +5,8 @@ public class Item : Entity
     public bool isActive { private set; get; } = false;
 
     [Header("Stat")]
-    [SerializeField] private float iSpeed = 3.5f;
-    [SerializeField] protected int bonus;
+    [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] protected int bonusStat;
     [SerializeField] private float bgDuration = 15f;
     private float bgTimer = 0f;
     private Collider2D bgCol;
@@ -26,7 +26,7 @@ public class Item : Entity
         {
             float angle = Random.Range(-15f, 15f);
             Vector3 dir = Quaternion.Euler(0f, 0f, angle) * (-transform.position);
-            Move(dir.normalized * iSpeed);
+            Move(dir.normalized * moveSpeed);
         }
     }
 
@@ -67,7 +67,7 @@ public class Item : Entity
     {
         base.SetData(_data);
 
-        bonus = ((ItemData)_data).Stat;
+        bonusStat = ((ItemData)_data).Stat;
     }
     #endregion
 }

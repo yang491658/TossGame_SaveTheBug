@@ -23,5 +23,5 @@ public class Clone : Item
     }
 
     private void Fire()
-        => Move(Vector3.up * (speed - speedBonus * bonus));
+        => Move(Vector3.up * (speed - speedBonus * bonusStat));
 }

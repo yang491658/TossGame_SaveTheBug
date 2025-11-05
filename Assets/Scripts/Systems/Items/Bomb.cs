@@ -30,6 +30,6 @@ public class Bomb : Item
         transform.localScale *= scale;
 
         Stop();
-        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
+        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
     }
 }

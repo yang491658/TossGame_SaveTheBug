@@ -79,7 +79,7 @@ public class Shield : Item
             diag * Vector3.left,
         };
 
-        for (int i = 0; i < count + countBonus * bonus; i++)
+        for (int i = 0; i < count + countBonus * bonusStat; i++)
         {
             Shield copy = EntityManager.Instance?.SpawnItem(data.ID, player.transform.position + offs[i])
                 .GetComponent<Shield>();
@@ -92,7 +92,7 @@ public class Shield : Item
 
     private IEnumerator FireCoroutine()
     {
-        yield return new WaitForSeconds(duration + durationBonus * bonus);
+        yield return new WaitForSeconds(duration + durationBonus * bonusStat);
         isFired = true;
         Move(Vector2.up * speed);
     }

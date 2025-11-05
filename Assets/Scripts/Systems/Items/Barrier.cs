@@ -40,6 +40,6 @@ public class Barrier : Item
         player = EntityManager.Instance?.GetPlayer();
 
         Stop();
-        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
+        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
     }
 }

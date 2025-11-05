@@ -50,7 +50,7 @@ public class Homing : Item
                 isMoving = false;
 
                 Stop();
-                EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonus);
+                EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
             }
         }
     }
@@ -74,7 +74,7 @@ public class Homing : Item
     {
         player = EntityManager.Instance?.GetPlayer();
 
-        int totalCount = count + (int)(countBonus * bonus);
+        int totalCount = count + (int)(countBonus * bonusStat);
         float start = -angle * 0.5f;
         float step = (totalCount - 1) > 0 ? angle / (totalCount - 1) : 0f;
 

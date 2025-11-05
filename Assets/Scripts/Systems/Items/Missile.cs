@@ -24,5 +24,5 @@ public class Missile : Item
     }
 
     private void Fire()
-        => Move(Vector3.up * Mathf.Max(speed - speedBonus * bonus, minSpeed));
+        => Move(Vector3.up * Mathf.Max(speed - speedBonus * bonusStat, minSpeed));
 }
