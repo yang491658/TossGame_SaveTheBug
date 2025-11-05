@@ -5,7 +5,7 @@ public class Bounce : Item
     #region 스케일
     [Header("Scale")]
     [SerializeField] private float scale = 3.0f;
-    [SerializeField] private float spin = -30f;
+    [SerializeField] private float spin = 30f;
     #endregion
 
     #region 능력
@@ -27,7 +27,7 @@ public class Bounce : Item
         base.Update();
 
         if (isActive)
-            transform.Rotate(0f, 0f, spin * rb.linearVelocity.magnitude * Time.deltaTime);
+            transform.Rotate(0f, 0f, -spin * rb.linearVelocity.magnitude * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D _collision)
