@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI itemText;
     [SerializeField] private Slider expSlider;
+    [SerializeField] private TextMeshProUGUI expText;
 
     [Header("Setting UI")]
     [SerializeField] private GameObject settingUI;
@@ -90,7 +91,9 @@ public class UIManager : MonoBehaviour
         if (itemText == null)
             itemText = GameObject.Find("InGameUI/Level/ItemText")?.GetComponent<TextMeshProUGUI>();
         if (expSlider == null)
-            expSlider = GameObject.Find("InGameUI/ExpSlider").GetComponentInChildren<Slider>();
+            expSlider = GameObject.Find("InGameUI/Exp/ExpSlider").GetComponentInChildren<Slider>();
+        if (expText == null)
+            expText = GameObject.Find("InGameUI/Exp/ExpText")?.GetComponent<TextMeshProUGUI>();
 
         if (settingUI == null)
             settingUI = GameObject.Find("SettingUI");
@@ -339,11 +342,14 @@ public class UIManager : MonoBehaviour
     {
         if (GameManager.Instance.IsMaxLevel())
         {
+            expText.gameObject.SetActive(false);
             expSlider.gameObject.SetActive(false);
             return;
         }
 
         int nextExp = GameManager.Instance.GetNextExp();
+        expText.gameObject.SetActive(true);
+        expText.text = $"{_currentExp} / {nextExp}";
         expSlider.gameObject.SetActive(true);
         expSlider.maxValue = nextExp;
         expSlider.value = Mathf.Clamp(nextExp - _currentExp, 0, nextExp);
