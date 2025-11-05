@@ -49,7 +49,7 @@ public class Item : Entity
 
     protected virtual void OnBecameInvisible()
     {
-        EntityManager.Instance?.RemoveItem(this);
+        EntityManager.Instance?.RemoveItem(this, 0f, true);
     }
 
     public virtual void UseItem()
@@ -65,11 +65,16 @@ public class Item : Entity
 
     public virtual void GrowScale(float _scale)
     {
-        transform.localScale = Vector3.MoveTowards(
+        Vector3 target = Vector3.one * _scale;
+
+        transform.localScale = Vector3.Lerp(
             transform.localScale,
-            Vector3.one * _scale,
+            target,
             Time.deltaTime * growSpeed
-        );
+            );
+
+        if ((transform.localScale - target).sqrMagnitude <= 0.0001f)
+            transform.localScale = target;
     }
 
     #region SET

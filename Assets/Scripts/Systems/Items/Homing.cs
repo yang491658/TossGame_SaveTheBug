@@ -67,7 +67,7 @@ public class Homing : Item
         if (isOrigin)
         {
             CopySelf();
-            EntityManager.Instance?.RemoveItem(this);
+            EntityManager.Instance?.RemoveItem(this, 0f, true);
         }
         else StartCoroutine(ChaseCoroutine());
     }

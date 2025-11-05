@@ -65,7 +65,7 @@ public class Spiral : Item
             yield return new WaitForSeconds(delay);
         }
 
-        EntityManager.Instance?.RemoveItem(this);
+        EntityManager.Instance?.RemoveItem(this, 0f, true);
     }
 
     private void Fire() => Move(direction * speed);

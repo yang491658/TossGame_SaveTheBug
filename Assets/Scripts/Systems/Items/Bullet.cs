@@ -61,7 +61,7 @@ public class Bullet : Item
                 yield return null;
         }
 
-        EntityManager.Instance?.RemoveItem(this);
+        EntityManager.Instance?.RemoveItem(this, 0f, true);
     }
 
     private void Fire()

@@ -264,26 +264,41 @@ public class EntityManager : MonoBehaviour
         Destroy(_enemy.gameObject);
     }
 
-    public void RemoveItem(Item _item, float _duration = 0f)
+    public void RemoveItem(Item _item, float _duration = 0f, bool _instant = false)
     {
         if (_item == null) return;
 
-        if (_duration <= 0f)
+        if (_instant)
         {
-            items.Remove(_item);
+            if (Instance != null) Instance.items.Remove(_item);
             Destroy(_item.gameObject);
             return;
         }
 
-        _item.StartCoroutine(RemoveCoroutine(_item, _duration));
+        StartCoroutine(RemoveCoroutine(_item, _duration));
     }
 
-    static private IEnumerator RemoveCoroutine(Item _item, float _duration)
-    {
-        yield return new WaitForSeconds(_duration);
 
-        Instance?.items.Remove(_item);
-        if (_item != null) Destroy(_item.gameObject);
+    private IEnumerator RemoveCoroutine(Item _item, float _duration)
+    {
+        if (_duration > 0f) yield return new WaitForSeconds(_duration);
+        if (_item == null) yield break;
+
+        float shrink = 0.5f;
+        Vector3 from = _item.transform.localScale;
+        float timer = 0f;
+        while (_item != null && timer < shrink)
+        {
+            timer += Time.deltaTime;
+            _item.transform.localScale = Vector3.Lerp(from, Vector3.zero, timer / shrink);
+            yield return null;
+        }
+
+        if (_item != null)
+        {
+            if (Instance != null) Instance.items.Remove(_item);
+            Destroy(_item.gameObject);
+        }
     }
 
     public void RemoveAll()
@@ -360,7 +375,7 @@ public class EntityManager : MonoBehaviour
             var it = items[i];
             if (it == null)
             {
-                items.RemoveAt(i); 
+                items.RemoveAt(i);
                 continue;
             }
 

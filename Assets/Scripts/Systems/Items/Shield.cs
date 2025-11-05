@@ -45,21 +45,21 @@ public class Shield : Item
     protected override void OnBecameInvisible()
     {
         if (isFired)
-            EntityManager.Instance.RemoveItem(this);
+            EntityManager.Instance.RemoveItem(this, 0f, true);
     }
 
     public override void UseItem()
     {
         if (isActive) return;
         base.UseItem();
-                
+
         rb.bodyType = RigidbodyType2D.Kinematic;
         player = EntityManager.Instance?.GetPlayer();
 
         if (isOrigin)
         {
             CopySelf();
-            EntityManager.Instance?.RemoveItem(this);
+            EntityManager.Instance?.RemoveItem(this, 0f, true);
         }
         else StartCoroutine(FireCoroutine());
     }
