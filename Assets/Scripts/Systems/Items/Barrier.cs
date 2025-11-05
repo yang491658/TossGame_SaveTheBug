@@ -42,6 +42,7 @@ public class Barrier : Item
         player = EntityManager.Instance?.GetPlayer();
 
         Stop();
+        SoundManager.Instance?.PlaySFX(this.name);
         EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
     }
 }

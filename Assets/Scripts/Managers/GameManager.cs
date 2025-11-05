@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         EntityManager.Instance?.ResetEntity();
         EntityManager.Instance?.SetEntity();
-        //EntityManager.Instance?.ToggleSpawn(true); // 임시
+        EntityManager.Instance?.ToggleSpawn(true);
 
         UIManager.Instance?.ResetPlayTime();
         UIManager.Instance?.OpenUI(false);
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
         OnChangeExp?.Invoke(currentExp);
 
         if (up > 0) PointUp(up);
-        //if (prev != 0) SoundManager.Instance?.PlaySFX("LevelUp"); // 임시
+        if (prev != 0) SoundManager.Instance?.PlaySFX("LevelUp");
     }
 
     public void ResetLevel()

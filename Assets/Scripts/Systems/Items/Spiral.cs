@@ -43,7 +43,8 @@ public class Spiral : Item
         else
         {
             SetScale(scale);
-            Fire();
+            Shoot();
+            SoundManager.Instance?.PlaySFX(this.name);
         }
     }
 
@@ -68,7 +69,7 @@ public class Spiral : Item
         EntityManager.Instance?.RemoveItem(this, 0f, true);
     }
 
-    private void Fire() => Move(direction * speed);
+    private void Shoot() => Move(direction * speed);
 
     #region SET
     public void SetClone() => isOrigin = false;

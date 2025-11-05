@@ -52,6 +52,7 @@ public class Homing : Item
                 isMoving = false;
 
                 Stop();
+                sfxLoop = SoundManager.Instance?.PlaySFXLoop(this.name + "2", transform);
                 EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
             }
         }
@@ -67,6 +68,7 @@ public class Homing : Item
         if (isOrigin)
         {
             CopySelf();
+            SoundManager.Instance?.PlaySFX(this.name);
             EntityManager.Instance?.RemoveItem(this, 0f, true);
         }
         else StartCoroutine(ChaseCoroutine());
@@ -116,13 +118,11 @@ public class Homing : Item
             if (direction == Vector3.zero)
                 direction = Vector3.up;
 
-            Fire();
+            Move(direction * speed);
 
             yield return null;
         }
     }
-
-    private void Fire() => Move(direction * speed);
 
     #region SET
     public void SetClone() => isOrigin = false;

@@ -27,9 +27,10 @@ public class Missile : Item
         if (isActive) return;
         base.UseItem();
 
-        Fire();
+        Shoot();
+        SoundManager.Instance?.PlaySFXLoop(this.name, transform);
     }
 
-    private void Fire()
+    private void Shoot()
         => Move(Vector3.up * Mathf.Max(speed - speedBonus * bonusStat, minSpeed));
 }

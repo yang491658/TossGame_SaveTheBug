@@ -37,9 +37,10 @@ public class Nuclear : Item
         if (isOrigin)
         {
             CopySelf();
+            SoundManager.Instance?.PlaySFX(this.name);
             EntityManager.Instance?.RemoveItem(this, 0f, true);
         }
-        else Fire();
+        else Shoot();
     }
 
     private void CopySelf()
@@ -59,8 +60,7 @@ public class Nuclear : Item
         }
     }
 
-    private void Fire() 
-        => Move(Vector3.up * (speed - speedBonus * bonusStat));
+    private void Shoot() => Move(Vector3.up * (speed - speedBonus * bonusStat));
 
     #region SET
     public void SetClone() => isOrigin = false;

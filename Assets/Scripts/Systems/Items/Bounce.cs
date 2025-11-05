@@ -44,6 +44,7 @@ public class Bounce : Item
                 rb.linearVelocityX *= -1;
 
             bounce--;
+            SoundManager.Instance?.PlaySFX(this.name);
         }
     }
 
@@ -56,11 +57,13 @@ public class Bounce : Item
         bounce += bounceBonus * bonusStat;
 
         SetDirection(player.transform.up);
-        Fire();
+        Shoot();
+        SoundManager.Instance?.PlaySFX(this.name);
         EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
+
     }
 
-    private void Fire()
+    private void Shoot()
         => Move(direction * Mathf.Max(player.GetSpeed() * speedRatio, minSpeed));
 
     #region SET

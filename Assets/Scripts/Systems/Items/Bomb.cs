@@ -31,6 +31,7 @@ public class Bomb : Item
         base.UseItem();
 
         Stop();
+        SoundManager.Instance?.PlaySFX(this.name);
         EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
     }
 }

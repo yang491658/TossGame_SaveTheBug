@@ -12,6 +12,8 @@ public class Item : Entity
     private float bgTimer = 0f;
     private Collider2D bgCol;
 
+    protected AudioSource sfxLoop;
+
     protected override void Awake()
     {
         base.Awake();
@@ -43,6 +45,7 @@ public class Item : Entity
         if (_collision.CompareTag("Enemy") && isActive)
         {
             GameManager.Instance?.ScoreUp(3);
+            SoundManager.Instance?.PlaySFX("Kill");
             EntityManager.Instance?.RemoveEnemy(_collision.GetComponent<Enemy>());
         }
     }
@@ -50,6 +53,13 @@ public class Item : Entity
     protected virtual void OnBecameInvisible()
     {
         EntityManager.Instance?.RemoveItem(this, 0f, true);
+    }
+
+    protected virtual void OnDestroy()
+    {
+        if (sfxLoop != null)
+            SoundManager.Instance?.StopSFXLoop(sfxLoop);
+        sfxLoop = null;
     }
 
     public virtual void UseItem()

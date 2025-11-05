@@ -26,9 +26,10 @@ public class Clone : Item
         if (isActive) return;
         base.UseItem();
 
-        Fire();
+        Shoot();
+        SoundManager.Instance?.PlaySFX(this.name);
     }
 
-    private void Fire()
+    private void Shoot()
         => Move(Vector3.up * (speed - speedBonus * bonusStat));
 }

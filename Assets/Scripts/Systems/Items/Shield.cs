@@ -59,9 +59,10 @@ public class Shield : Item
         if (isOrigin)
         {
             CopySelf();
+            SoundManager.Instance?.PlaySFX(this.name);
             EntityManager.Instance?.RemoveItem(this, 0f, true);
         }
-        else StartCoroutine(FireCoroutine());
+        else StartCoroutine(ShootCoroutine());
     }
 
     private void CopySelf()
@@ -92,7 +93,7 @@ public class Shield : Item
         }
     }
 
-    private IEnumerator FireCoroutine()
+    private IEnumerator ShootCoroutine()
     {
         yield return new WaitForSeconds(duration + durationBonus * bonusStat);
         isFired = true;

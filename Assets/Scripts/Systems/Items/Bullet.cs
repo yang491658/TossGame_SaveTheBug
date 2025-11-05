@@ -42,7 +42,8 @@ public class Bullet : Item
         else
         {
             SetScale(scale);
-            Fire();
+            Shoot();
+            SoundManager.Instance?.PlaySFX(this.name);
         }
     }
 
@@ -64,7 +65,7 @@ public class Bullet : Item
         EntityManager.Instance?.RemoveItem(this, 0f, true);
     }
 
-    private void Fire()
+    private void Shoot()
         => Move(direction * Mathf.Max(player.GetSpeed() * speedRatio, minSpeed));
 
     #region SET
