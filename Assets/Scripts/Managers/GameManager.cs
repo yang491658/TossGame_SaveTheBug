@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Speed")]
     [SerializeField] private float speed = 1f;
     [SerializeField] private float minSpeed = 0.5f;
-    [SerializeField] private float maxSpeed = 3f;
+    [SerializeField] private float maxSpeed = 2f;
 
     [Header("Score")]
     [SerializeField] private int score = 0;
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
 
         EntityManager.Instance?.ResetEntity();
         EntityManager.Instance?.SetEntity();
-        EntityManager.Instance?.ToggleSpawn(true);
+        //EntityManager.Instance?.ToggleSpawn(true); // 임시
 
         UIManager.Instance?.ResetPlayTime();
         UIManager.Instance?.OpenUI(false);
@@ -168,6 +168,7 @@ public class GameManager : MonoBehaviour
         OnChangeExp?.Invoke(currentExp);
 
         if (up > 0) PointUp(up);
+        //if (prev != 0) SoundManager.Instance?.PlaySFX("LevelUp"); // 임시
     }
 
     public void ResetLevel()
