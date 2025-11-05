@@ -25,12 +25,14 @@ public class EntityManager : MonoBehaviour
     private readonly Dictionary<string, System.Type> itemTypeDic = new Dictionary<string, System.Type>();
 
     [Header("Spawn Settings")]
+    [SerializeField] private int eMinCount = 1;
+    [SerializeField] private int eMaxCount = 1;
     [SerializeField][Min(0.05f)] private float eDelay = 5;
-    [SerializeField][Min(0.05f)] private float eDelayMin = 0.05f;
+    [SerializeField][Min(0.05f)] private float eMinDelay = 0.05f;
     [SerializeField][Min(0.05f)] private float iDelay = 10f;
-    [SerializeField][Min(0.05f)] private float iDelayMin = 3f;
-    private float eDelayBase;
-    private float iDelayBase;
+    [SerializeField][Min(0.05f)] private float iMinDelay = 3f;
+    private float eBaseDelay;
+    private float iBaseDelay;
     private Coroutine spawnRoutine;
 
     [Header("Entities")]
@@ -80,6 +82,14 @@ public class EntityManager : MonoBehaviour
     }
 
     #region 적
+    public int CalcEnemyCount()
+    {
+        int n = GameManager.Instance.GetScore() / 1000;
+        eMinCount = 1 + n;
+        eMaxCount = 1 + 2 * n;
+        return Random.Range(eMinCount, eMaxCount + 1);
+    }
+
     public Enemy SpawnEnemy(Vector3? _pos = null)
     {
         Vector3 pos = SpawnPos(SpawnKind.Enemy, _pos);
@@ -161,24 +171,24 @@ public class EntityManager : MonoBehaviour
         Rect r = AutoCamera.WorldRect;
 
         float minX = r.xMin, maxX = r.xMax;
-        float minY = r.yMin, maxY = r.yMax, midY = r.center.y;
+        float yMin = r.yMin, yMax = r.yMax, yMid = r.center.y;
 
         bool enemy = _kind == SpawnKind.Enemy;
         int edge = Random.Range(0, enemy ? 3 : 4);
         float x = Random.Range(minX, maxX);
-        float y = enemy ? Random.Range(midY, maxY) : Random.Range(minY, maxY);
+        float y = enemy ? Random.Range(yMid, yMax) : Random.Range(yMin, yMax);
 
         if (enemy)
-            return edge == 0 ? new Vector3(x, maxY)
+            return edge == 0 ? new Vector3(x, yMax)
                  : edge == 1 ? new Vector3(minX, y)
                  : new Vector3(maxX, y);
 
         float p = 1.5f;
         float ix = Random.Range(minX + p, maxX - p);
-        float iy = Random.Range(minY + p, maxY - p);
+        float iy = Random.Range(yMin + p, yMax - p);
 
-        return edge == 0 ? new Vector3(ix, maxY) + Vector3.down
-             : edge == 1 ? new Vector3(ix, minY) + Vector3.up
+        return edge == 0 ? new Vector3(ix, yMax) + Vector3.down
+             : edge == 1 ? new Vector3(ix, yMin) + Vector3.up
              : edge == 2 ? new Vector3(minX, iy) + Vector3.right
              : new Vector3(maxX, iy) + Vector3.left;
     }
@@ -205,20 +215,24 @@ public class EntityManager : MonoBehaviour
             eTimer += dt;
             iTimer += dt;
 
-            eDelay = Mathf.Max(eDelay - dt / 50f, eDelayMin);
-            iDelay = Mathf.Max(iDelay - dt / 35f, iDelayMin);
+            eDelay = Mathf.Max(eDelay - dt / 50f, eMinDelay);
+            iDelay = Mathf.Max(iDelay - dt / 35f, iMinDelay);
 
             int cnt = 0;
+            int count = CalcEnemyCount();
             while (eTimer >= eDelay && cnt++ < 4)
             {
-                var enemy = SpawnEnemy();
-                if (enemy == null)
+                for (int i = 0; i < count; i++)
                 {
-                    eTimer = Mathf.Min(eTimer, eDelay);
-                    break;
+                    var enemy = SpawnEnemy();
+                    if (enemy == null)
+                    {
+                        eTimer = Mathf.Min(eTimer, eDelay);
+                        break;
+                    }
+                    eTimer -= eDelay;
+                    yield return new WaitForSeconds(0.01f);
                 }
-                eTimer -= eDelay;
-                yield return new WaitForSeconds(0.01f);
             }
 
             cnt = 0;
@@ -322,14 +336,14 @@ public class EntityManager : MonoBehaviour
 
         Vector3 c = new Vector3(AutoCamera.WorldRect.center.x, AutoCamera.WorldRect.yMin * 0.6f, 0f);
         player.transform.localPosition = c;
-        eDelayBase = eDelay;
-        iDelayBase = iDelay;
+        eBaseDelay = eDelay;
+        iBaseDelay = iDelay;
     }
 
     public void ResetEntity()
     {
-        eDelay = eDelayBase;
-        iDelay = iDelayBase;
+        eDelay = eBaseDelay;
+        iDelay = iBaseDelay;
 
         foreach (var item in itemDatas)
             item.ResetStat(false);

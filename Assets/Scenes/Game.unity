@@ -1145,7 +1145,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: -141.09003, y: 111.51}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137781732
 MonoBehaviour:
@@ -1544,7 +1544,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -365, y: 15}
-  m_SizeDelta: {x: 400, y: -49.47}
+  m_SizeDelta: {x: 400, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &185723932
 GameObject:
@@ -2611,7 +2611,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 855.71, y: 150}
+  m_SizeDelta: {x: 0, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &390655765
 MonoBehaviour:
@@ -3531,7 +3531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &578179200
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5697,7 +5697,7 @@ MonoBehaviour:
   score: 0
   currentExp: 0
   nextExp: 0
-  expUp: 10
+  nextExpUp: 10
   level: 0
   maxLevel: 40
   point: 0
@@ -12177,7 +12177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1725714605
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13996,7 +13996,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 265, y: 15}
-  m_SizeDelta: {x: 200, y: -123.23}
+  m_SizeDelta: {x: 200, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1916025736
 MonoBehaviour:
@@ -14130,7 +14130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1922433878
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14511,7 +14511,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 780}
-  m_SizeDelta: {x: 689.26, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1974470470
 MonoBehaviour:
@@ -15200,10 +15200,12 @@ MonoBehaviour:
   enemyBase: {fileID: 0}
   itemBase: {fileID: 0}
   itemDatas: []
+  eMinCount: 1
+  eMaxCount: 1
   eDelay: 5
-  eDelayMin: 0.05
+  eMinDelay: 0.05
   iDelay: 10
-  iDelayMin: 3
+  iMinDelay: 3
   inGame: {fileID: 0}
   player: {fileID: 0}
   enemyTrans: {fileID: 0}

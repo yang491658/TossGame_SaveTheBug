@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     [Header("Exp")]
     [SerializeField][Min(0)] private int currentExp = 0;
     [SerializeField][Min(0)] private int nextExp = 0;
-    [SerializeField][Min(1)] private int expUp = 10;
+    [SerializeField][Min(1)] private int nextExpUp = 10;
     public event System.Action<int> OnChangeExp;
 
     [Header("Level")]
@@ -91,9 +91,7 @@ public class GameManager : MonoBehaviour
         Pause(false);
         IsGameOver = false;
         ResetScore();
-
         ResetLevel();
-        if (level == 0) LevelUp();
 
         SoundManager.Instance?.PlayBGM("Default");
 
@@ -105,6 +103,8 @@ public class GameManager : MonoBehaviour
         UIManager.Instance?.OpenUI(false);
 
         HandleManager.Instance?.SetHandle();
+
+        if (level == 0) LevelUp();
     }
 
     #region 점수
@@ -113,6 +113,8 @@ public class GameManager : MonoBehaviour
         score += _score;
 
         OnChangeScore?.Invoke(score);
+
+        ExpUp(_score);
     }
 
     public void ResetScore()
@@ -158,8 +160,8 @@ public class GameManager : MonoBehaviour
         int up = level - prev;
         if (!IsMaxLevel())
         {
-            if (nextExp <= 0) nextExp = expUp * level;
-            else nextExp += expUp * up;
+            if (nextExp <= 0) nextExp = nextExpUp * level;
+            else nextExp += nextExpUp * up;
         }
         else nextExp = 0;
 
