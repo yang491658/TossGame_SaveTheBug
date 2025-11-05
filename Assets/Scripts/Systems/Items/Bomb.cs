@@ -5,7 +5,7 @@ public class Bomb : Item
     #region 스케일
     [Header("Scale")]
     [SerializeField] private float scale = 4f;
-    [SerializeField] private float spin = -30f;
+    [SerializeField] private float spin = 30f;
     #endregion
 
     #region 능력
@@ -19,7 +19,7 @@ public class Bomb : Item
         base.Update();
 
         if (isActive)
-            transform.Rotate(0f, 0f, spin * Time.deltaTime);
+            transform.Rotate(0f, 0f, -spin * Time.deltaTime);
     }
 
     public override void UseItem()
