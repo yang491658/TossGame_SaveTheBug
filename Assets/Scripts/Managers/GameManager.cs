@@ -111,12 +111,14 @@ public class GameManager : MonoBehaviour
     public void ScoreUp(int _score = 1)
     {
         score += _score;
+
         OnChangeScore?.Invoke(score);
     }
 
     public void ResetScore()
     {
         score = 0;
+
         OnChangeScore?.Invoke(score);
     }
     #endregion
@@ -130,6 +132,7 @@ public class GameManager : MonoBehaviour
             currentExp -= nextExp;
             LevelUp();
         }
+
         OnChangeExp?.Invoke(currentExp);
     }
 
@@ -137,6 +140,7 @@ public class GameManager : MonoBehaviour
     {
         currentExp = 0;
         nextExp = 0;
+
         OnChangeExp?.Invoke(currentExp);
     }
     #endregion
@@ -148,6 +152,7 @@ public class GameManager : MonoBehaviour
 
         int prev = level;
         level = Mathf.Min(level + _level, maxLevel);
+
         OnChangeLevel?.Invoke(level);
 
         int up = level - prev;
@@ -157,6 +162,7 @@ public class GameManager : MonoBehaviour
             else nextExp += expUp * up;
         }
         else nextExp = 0;
+
         OnChangeExp?.Invoke(currentExp);
 
         if (up > 0) PointUp(up);
@@ -165,6 +171,7 @@ public class GameManager : MonoBehaviour
     public void ResetLevel()
     {
         level = 0;
+
         OnChangeLevel?.Invoke(level);
 
         ResetExp();
@@ -176,18 +183,21 @@ public class GameManager : MonoBehaviour
     public void PointUp(int _point = 1)
     {
         point += _point;
+
         OnChangePoint?.Invoke(point);
     }
 
     public void UsePoint()
     {
         point--;
+
         OnChangePoint?.Invoke(point);
     }
 
     public void ResetPoint()
     {
         point = 0;
+
         OnChangePoint?.Invoke(point);
     }
     #endregion

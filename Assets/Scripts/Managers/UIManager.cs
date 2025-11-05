@@ -241,18 +241,20 @@ public class UIManager : MonoBehaviour
     {
         if (settingUI == null) return;
 
-        OnOpenUI?.Invoke(_on);
         inGameUI.SetActive(!_on);
         settingUI.SetActive(_on);
+
+        OnOpenUI?.Invoke(_on);
     }
 
     public void OpenStat(bool _on)
     {
         if (statUI == null) return;
 
-        OnOpenUI?.Invoke(_on);
         inGameUI.SetActive(!_on);
         statUI.SetActive(_on);
+
+        OnOpenUI?.Invoke(_on);
 
         var datas = EntityManager.Instance?.GetDatas();
         for (int i = 0; i < statItems.Count; i++)
@@ -303,9 +305,10 @@ public class UIManager : MonoBehaviour
     {
         if (resultUI == null) return;
 
-        OnOpenUI?.Invoke(_on);
         inGameUI.SetActive(!_on);
         resultUI.SetActive(_on);
+
+        OnOpenUI?.Invoke(_on);
     }
     #endregion
 
@@ -487,6 +490,8 @@ public class UIManager : MonoBehaviour
     public void OnClickClose() => OpenUI(false);
     public void OnClickSetting() => OpenSetting(true);
 
+    public void OnClickSpeed() => speedSlider.value = 1f;
+    public void OnClickSens() => sensSlider.value = 1f;
     public void OnClickBGM() => SoundManager.Instance?.ToggleBGM();
     public void OnClickSFX() => SoundManager.Instance?.ToggleSFX();
 
