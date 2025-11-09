@@ -20,17 +20,6 @@ public class Player : Entity
         SetData(data);
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-#if UNITY_EDITOR
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        Move(new Vector3(x, y).normalized * 5f);
-#endif
-    }
-
     private void OnTriggerStay2D(Collider2D _collision)
     {
         if (_collision.CompareTag("Background"))

@@ -34,7 +34,7 @@ public struct ItemSlot
 
 public class UIManager : MonoBehaviour
 {
-    static public UIManager Instance { private set; get; }
+    public static UIManager Instance { private set; get; }
 
     public event System.Action<bool> OnOpenUI;
 
@@ -140,7 +140,7 @@ public class UIManager : MonoBehaviour
             resultScoreText = GameObject.Find("ResultUI/Score/ScoreText")?.GetComponent<TextMeshProUGUI>();
     }
 
-    static private void LoadSprite(List<Sprite> _list, string _sprite)
+    private void LoadSprite(List<Sprite> _list, string _sprite)
     {
         if (string.IsNullOrEmpty(_sprite)) return;
         string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/Imports/Dark UI/Icons" });

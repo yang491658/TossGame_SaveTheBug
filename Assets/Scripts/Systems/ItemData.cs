@@ -58,7 +58,7 @@ public class ItemData : EntityData
     }
 #endif
 
-    new public ItemData Clone()
+    public new ItemData Clone()
     {
         var clone = CreateInstance<ItemData>();
 
