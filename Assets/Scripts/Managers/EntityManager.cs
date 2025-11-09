@@ -252,7 +252,7 @@ public class EntityManager : MonoBehaviour
     #endregion
 
     #region 제거
-    public void RemoveEnemy(Enemy _enemy)
+    public void DespawnEnemy(Enemy _enemy)
     {
         if (_enemy == null) return;
 
@@ -260,7 +260,7 @@ public class EntityManager : MonoBehaviour
         Destroy(_enemy.gameObject);
     }
 
-    public void RemoveItem(Item _item, float _duration = 0f, bool _instant = false)
+    public void DespawnItem(Item _item, float _duration = 0f, bool _instant = false)
     {
         if (_item == null) return;
 
@@ -271,11 +271,11 @@ public class EntityManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(RemoveCoroutine(_item, _duration));
+        StartCoroutine(DespawnCoroutine(_item, _duration));
     }
 
 
-    private IEnumerator RemoveCoroutine(Item _item, float _duration)
+    private IEnumerator DespawnCoroutine(Item _item, float _duration)
     {
         if (_duration > 0f) yield return new WaitForSeconds(_duration);
         if (_item == null) yield break;
@@ -297,13 +297,13 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public void RemoveAll()
+    public void DespawnAll()
     {
         for (int i = enemies.Count - 1; i >= 0; i--)
-            RemoveEnemy(enemies[i]);
+            DespawnEnemy(enemies[i]);
 
         for (int i = items.Count - 1; i >= 0; i--)
-            RemoveItem(items[i]);
+            DespawnItem(items[i]);
     }
     #endregion
 

@@ -46,13 +46,13 @@ public class Item : Entity
         {
             GameManager.Instance?.ScoreUp(3);
             SoundManager.Instance?.PlaySFX("Kill");
-            EntityManager.Instance?.RemoveEnemy(_collision.GetComponent<Enemy>());
+            EntityManager.Instance?.DespawnEnemy(_collision.GetComponent<Enemy>());
         }
     }
 
     protected virtual void OnBecameInvisible()
     {
-        EntityManager.Instance?.RemoveItem(this, 0f, true);
+        EntityManager.Instance?.DespawnItem(this, 0f, true);
     }
 
     protected virtual void OnDestroy()

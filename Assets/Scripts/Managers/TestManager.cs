@@ -96,7 +96,7 @@ public class TestManager : MonoBehaviour
             EntityManager.Instance?.SpawnEnemy();
         if (Input.GetKey(KeyCode.T))
             EntityManager.Instance?.SpawnItem();
-        if (Input.GetKeyDown(KeyCode.Delete)) EntityManager.Instance?.RemoveAll();
+        if (Input.GetKeyDown(KeyCode.Delete)) EntityManager.Instance?.DespawnAll();
         #endregion
 
         #region UI 테스트

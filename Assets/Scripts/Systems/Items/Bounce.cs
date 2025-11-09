@@ -59,7 +59,7 @@ public class Bounce : Item
         SetDirection(player.transform.up);
         Shoot();
         SoundManager.Instance?.PlaySFX(this.name);
-        EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
+        EntityManager.Instance?.DespawnItem(this, duration + durationBonus * bonusStat);
 
     }
 

@@ -53,7 +53,7 @@ public class Homing : Item
 
                 Stop();
                 sfxLoop = SoundManager.Instance?.PlaySFXLoop(this.name + "2", transform);
-                EntityManager.Instance?.RemoveItem(this, duration + durationBonus * bonusStat);
+                EntityManager.Instance?.DespawnItem(this, duration + durationBonus * bonusStat);
             }
         }
     }
@@ -69,7 +69,7 @@ public class Homing : Item
         {
             CopySelf();
             SoundManager.Instance?.PlaySFX(this.name);
-            EntityManager.Instance?.RemoveItem(this, 0f, true);
+            EntityManager.Instance?.DespawnItem(this, 0f, true);
         }
         else StartCoroutine(ChaseCoroutine());
     }

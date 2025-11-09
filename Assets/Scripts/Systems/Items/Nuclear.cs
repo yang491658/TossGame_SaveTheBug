@@ -38,7 +38,7 @@ public class Nuclear : Item
         {
             CopySelf();
             SoundManager.Instance?.PlaySFX(this.name);
-            EntityManager.Instance?.RemoveItem(this, 0f, true);
+            EntityManager.Instance?.DespawnItem(this, 0f, true);
         }
         else Shoot();
     }
