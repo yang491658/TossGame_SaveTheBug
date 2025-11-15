@@ -101,6 +101,14 @@ public class EntityManager : MonoBehaviour
 
         return e;
     }
+
+    public void DespawnEnemy(Enemy _enemy)
+    {
+        if (_enemy == null) return;
+
+        enemies.Remove(_enemy);
+        Destroy(_enemy.gameObject);
+    }
     #endregion
 
     #region 아이템
@@ -140,10 +148,40 @@ public class EntityManager : MonoBehaviour
         return i;
     }
 
-    private void ActWithReward(System.Action _act)
+    public void DespawnItem(Item _item, float _duration = 0f, bool _instant = false)
     {
-        if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
-        else _act?.Invoke();
+        if (_item == null) return;
+
+        if (_instant)
+        {
+            if (Instance != null) Instance.items.Remove(_item);
+            Destroy(_item.gameObject);
+            return;
+        }
+
+        StartCoroutine(DespawnItemCoroutine(_item, _duration));
+    }
+
+    private IEnumerator DespawnItemCoroutine(Item _item, float _duration)
+    {
+        if (_duration > 0f) yield return new WaitForSeconds(_duration);
+        if (_item == null) yield break;
+
+        float shrink = 0.5f;
+        Vector3 from = _item.transform.localScale;
+        float timer = 0f;
+        while (_item != null && timer < shrink)
+        {
+            timer += Time.deltaTime;
+            _item.transform.localScale = Vector3.Lerp(from, Vector3.zero, timer / shrink);
+            yield return null;
+        }
+
+        if (_item != null)
+        {
+            if (Instance != null) Instance.items.Remove(_item);
+            Destroy(_item.gameObject);
+        }
     }
 
     public void Reset()
@@ -249,53 +287,6 @@ public class EntityManager : MonoBehaviour
             yield return null;
         }
     }
-    #endregion
-
-    #region 제거
-    public void DespawnEnemy(Enemy _enemy)
-    {
-        if (_enemy == null) return;
-
-        enemies.Remove(_enemy);
-        Destroy(_enemy.gameObject);
-    }
-
-    public void DespawnItem(Item _item, float _duration = 0f, bool _instant = false)
-    {
-        if (_item == null) return;
-
-        if (_instant)
-        {
-            if (Instance != null) Instance.items.Remove(_item);
-            Destroy(_item.gameObject);
-            return;
-        }
-
-        StartCoroutine(DespawnCoroutine(_item, _duration));
-    }
-
-
-    private IEnumerator DespawnCoroutine(Item _item, float _duration)
-    {
-        if (_duration > 0f) yield return new WaitForSeconds(_duration);
-        if (_item == null) yield break;
-
-        float shrink = 0.5f;
-        Vector3 from = _item.transform.localScale;
-        float timer = 0f;
-        while (_item != null && timer < shrink)
-        {
-            timer += Time.deltaTime;
-            _item.transform.localScale = Vector3.Lerp(from, Vector3.zero, timer / shrink);
-            yield return null;
-        }
-
-        if (_item != null)
-        {
-            if (Instance != null) Instance.items.Remove(_item);
-            Destroy(_item.gameObject);
-        }
-    }
 
     public void DespawnAll()
     {
@@ -304,6 +295,12 @@ public class EntityManager : MonoBehaviour
 
         for (int i = items.Count - 1; i >= 0; i--)
             DespawnItem(items[i]);
+    }
+
+    private void ActWithReward(System.Action _act)
+    {
+        if (ADManager.Instance != null) ADManager.Instance?.ShowReward(_act);
+        else _act?.Invoke();
     }
     #endregion
 
